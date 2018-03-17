@@ -13,9 +13,17 @@ MyDate::MyDate(int x,int y,int z){
     year=x;
     month=y;
     day=z;
+    int numberOfRun =0;
+    int numberOfPing = 0;
     int countYear=x-EPOCH_YEAR;
-    int numberOfRun = countYear/4;
-    int numberOfPing = countYear - numberOfRun;
+    if(x>1972){
+         numberOfRun = (countYear-3)/4+1;
+         numberOfPing = countYear - numberOfRun;
+    }else{
+         numberOfRun = 0;
+         numberOfPing = 1;
+    }
+
     days = days+numberOfRun*RUN + numberOfPing*PING;//计算平闰年总天数
     days = days+monthNumber(year,month);
     days = days+z-1;//按天储存
