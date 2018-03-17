@@ -1,38 +1,35 @@
 #include "MyDate.h"
 #include <sstream>
-#define EPOCH_YEAR 1970
+#define EPOCH_YEAR 1900
 #define SECOND_OF_DAY 86400
 #define PING 365
 #define RUN 366
+#define TOEPOCH 25567
 using namespace std;
 MyDate::MyDate(long long i){
-    days=days+i/SECOND_OF_DAY;//按天储存
+    days=TOEPOCH+i/SECOND_OF_DAY;//按天储存
 }
 
 MyDate::MyDate(int x,int y,int z){
     year=x;
     month=y;
     day=z;
-    int numberOfRun =0;
-    int numberOfPing = 0;
+
     int countYear=x-EPOCH_YEAR;
-    if(x>1972){
-         numberOfRun = (countYear-3)/4+1;
-         numberOfPing = countYear - numberOfRun;
-    }else{
-         numberOfRun = 0;
-         numberOfPing = 1;
-    }
+
+    int  numberOfRun = (countYear+3)/4-1;
+    int  numberOfPing = countYear - numberOfRun;
+
 
     days = days+numberOfRun*RUN + numberOfPing*PING;//计算平闰年总天数
     days = days+monthNumber(year,month);
     days = days+z-1;//按天储存
 }
 MyDate MyDate::add(int i) const{
-    return MyDate((days + i)*86400LL);//转换成秒创建新的对象。
+    return MyDate((i+days-TOEPOCH)*86400LL);//转换成秒创建新的对象。
 }
 MyDate MyDate::subtract(int i) const{
-    return MyDate((days - i)*86400LL);//转换成秒创建新的对象。
+    return MyDate((days-i-TOEPOCH)*86400LL);//转换成秒创建新的对象。
 }
 int MyDate::subtract(const MyDate& date ) const{
     return (this->days - date.days);//返回天数
@@ -79,16 +76,10 @@ bool MyDate::greaterThanOrEquals(const MyDate& date) const{
 }
 string MyDate::toString() const
 {
-    if(year!=1970){
-        return myToString(1970,days,1,1);
+    if(year!=1900){
+        return myToString(1900,days,1,1);
     }else{
-        if(days>0){
             return myToString(year,days,month,day);
-        }else{
-            int   MyDays = days + 25567;//25567为1900-01-01到1970-01-01天数
-            int  MyYear=1900;//当days<0时,转换成正数套入编写的私有函数。
-            return myToString(MyYear,MyDays,month,day);
-        }
     }
 }
 int MyDate::monthNumber(int year,int month) const{//私有函数计算由月份转换而来的天数
