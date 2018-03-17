@@ -98,10 +98,11 @@ string MyDate::myToString(int year, int days,int month,int day) const{//为了实现
     int i =1;
     int myMonth = 1;
     while(i){
-        if(((year+1)%100==0&&(year+1)%400==0)||((year+1)%100!=0&&(year+1)%4==0)){
+        if(((year)%100==0&&(year)%400==0)||((year)%100!=0&&(year)%4==0)){
             if(days>=(a[12]+1)){
                 days=days-a[12]-1;
                 year++;
+
             }
             else{i=0;}
         }else{
@@ -112,7 +113,7 @@ string MyDate::myToString(int year, int days,int month,int day) const{//为了实现
             else{i=0;}
         }
     }
-    for(int i=0;i<11;i++){
+    for(int i=12;i>1;i--){
         if(year%100==0&&year%400==0){a[i]++;}
         if(year%100!=0&&year%4==0){a[i]++;}
     }
