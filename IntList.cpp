@@ -62,7 +62,7 @@ void IntList::resize(int n, int val){
      }
      else{
             for(int i=0;i<n;++i){
-                 temp[i]=val;
+                 temp[i]=values[i];
             }
      }
      delete[]values;
